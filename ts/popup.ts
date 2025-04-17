@@ -530,18 +530,15 @@ globalMonoItalBtn.addEventListener("click", async () => {
     isGlobalMonoItalBtnOn = !isGlobalMonoItalBtnOn;
 });
 
-// load locally installed fonts
-for (const each_type of [serifSelect, sansSerifSelect, monospaceSelect]) {
-    chrome.fontSettings.getFontList((fonts) => {
-        fonts.forEach((font) => {
-            const option = document.createElement("option");
-            option.value = font.displayName;
-            option.textContent = font.displayName;
-            option.style.fontFamily = font.displayName;
-            each_type.appendChild(option);
-        });
-    });
-}
+
+const createFontSelectionOption = (familyName: string) => {
+    const option = document.createElement("option");
+    option.value = option.textContent = option.style.fontFamily = familyName;
+    return option;
+};
+serifSelect.appendChild(createFontSelectionOption('Noto Serif'));
+sansSerifSelect.appendChild(createFontSelectionOption('Dubuntu Sans'));
+monospaceSelect.appendChild(createFontSelectionOption('JetBrains Mono'));
 
 // for global fonts form
 for (const each_type of [
