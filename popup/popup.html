@@ -123,6 +123,16 @@
             <input id="exempt_check" type="checkbox" disabled class="toggle toggle-primary" />
         </div>
         <div class="divider"></div>
+        <form name="restore_settings">
+            <input type="file" id="json_file" name="json_file" required>
+            <button id="restore_settings_btn" type="submit">Restore settings</button>
+            <div id="restore_result"></div>
+        </form>
+        <div class="divider"></div>
+        <form name="export_settings">
+            <button id="export_settings_btn" type="submit">Export settings</button>
+        </form>
+        <div class="divider"></div>
         <div id="global_not_checked_info_text"
             class="prose-sm border border-dashed rounded-md border-primary p-6 text-center flex justify-center items-center  h-44">
             <p>To apply fonts to all websites, select fonts for any website and turn on the setting.</p>

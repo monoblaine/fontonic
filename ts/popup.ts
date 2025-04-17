@@ -76,6 +76,44 @@ const globalMonoLabel = document.querySelector(
     "#global_mono_label",
 ) as HTMLElement;
 
+const restoreSettingsForm = document.forms["restore_settings"] as HTMLFormElement;
+const jsonFileInputField = restoreSettingsForm.elements["json_file"] as HTMLInputElement;
+const restoreSettingsBtn = restoreSettingsForm.elements["restore_settings_btn"] as HTMLButtonElement;
+const restoreResultDiv = restoreSettingsForm.querySelector('#restore_result') as HTMLDivElement;
+
+restoreSettingsForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const file = jsonFileInputField.files[0];
+    const rawData = await file.text();
+    const domainSet = JSON.parse(rawData);
+    const domains = Object.keys(domainSet);
+    for (let domain of domains) {
+        const fontData = domainSet[domain] as fontData;
+        await chrome.storage.sync.set({
+            [domain]: fontData,
+        });
+    }
+    restoreResultDiv.innerHTML = `<p style="margin-top:1em;">✅ Domains (${domains.length}) restored.</p>`;
+    setTimeout(() => {
+        restoreResultDiv.innerHTML = '';
+    }, 1500);
+});
+
+const exportSettingsForm = document.forms["export_settings"] as HTMLFormElement;
+const exportSettingsBtn = exportSettingsForm.elements["export_settings_btn"] as HTMLButtonElement;
+
+exportSettingsForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    chrome.storage.sync.get(null, function (items) {
+        const data = JSON.stringify(items, null, 2);
+        const blob = new Blob([data], { type: 'application/json' });
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = 'fontonic_backup.json';
+        downloadLink.click();
+    });
+});
+
 tipWhenOverrideOn.remove();
 tipWhenOverrideOff.remove();
 tipWhenSiteIsExempted.remove();
