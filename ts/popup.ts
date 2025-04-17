@@ -559,6 +559,9 @@ for (const each_type of [
 
 fontSelectionForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    serifSelect.value = serifSelect.options[1].value;
+    sansSerifSelect.value = sansSerifSelect.options[1].value;
+    monospaceSelect.value = monospaceSelect.options[1].value;
     const serifValue = serifSelect.value;
     const sansSerifValue = sansSerifSelect.value;
     const monospaceValue = monospaceSelect.value;
@@ -580,7 +583,7 @@ fontSelectionForm.addEventListener("submit", (e) => {
             formButtons.prepend(restoreButton);
     }
     setTimeout(() => {
-        applyButton.innerHTML = "Apply Selection";
+        applyButton.innerHTML = "Select first and apply";
     }, 1500);
 
     try {
